@@ -1,0 +1,16 @@
+# Logs
+*.log
+logs/
+
+# Runtime / chat attachments
+.chat/
+
+# OS
+.DS_Store
+
+# Build artifacts
+*.fmu
+*.wasm
+*.bin
+*.js
+*.xml

@@ -1,0 +1,123 @@
+{
+  "modules": [
+    {
+      "name": "UpperTank",
+      "kind": "modelica",
+      "path": "UpperTank.mo",
+      "role": "upper water tank",
+      "ports": [
+        {
+          "name": "q_pump",
+          "causality": "input",
+          "description": "Pump inflow [m3/s]"
+        },
+        {
+          "name": "h_u",
+          "causality": "output",
+          "description": "Level [m]"
+        },
+        {
+          "name": "q_out",
+          "causality": "output",
+          "description": "Outflow to lower tank [m3/s]"
+        }
+      ]
+    },
+    {
+      "name": "LowerTank",
+      "kind": "modelica",
+      "path": "LowerTank.mo",
+      "role": "lower water tank",
+      "ports": [
+        {
+          "name": "q_in",
+          "causality": "input",
+          "description": "Inflow from upper tank [m3/s]"
+        },
+        {
+          "name": "h_l",
+          "causality": "output",
+          "description": "Level [m]"
+        },
+        {
+          "name": "q_draw",
+          "causality": "output",
+          "description": "Demand draw [m3/s]"
+        }
+      ]
+    },
+    {
+      "name": "Pump",
+      "kind": "modelica",
+      "path": "Pump.mo",
+      "role": "pump",
+      "ports": [
+        {
+          "name": "u",
+          "causality": "input",
+          "description": "Command 0..1"
+        },
+        {
+          "name": "q",
+          "causality": "output",
+          "description": "Flow [m3/s]"
+        }
+      ]
+    },
+    {
+      "name": "Controller",
+      "kind": "structured_text",
+      "path": "Controller.st",
+      "role": "controller",
+      "ports": [
+        {
+          "name": "h_l",
+          "causality": "input",
+          "description": "Lower tank level [m]"
+        },
+        {
+          "name": "h_u",
+          "causality": "input",
+          "description": "Upper tank level [m]"
+        },
+        {
+          "name": "u",
+          "causality": "output",
+          "description": "Pump command 0..1"
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "source": "Pump",
+      "source_port": "q",
+      "target": "UpperTank",
+      "target_port": "q_pump"
+    },
+    {
+      "source": "UpperTank",
+      "source_port": "q_out",
+      "target": "LowerTank",
+      "target_port": "q_in"
+    },
+    {
+      "source": "LowerTank",
+      "source_port": "h_l",
+      "target": "Controller",
+      "target_port": "h_l"
+    },
+    {
+      "source": "UpperTank",
+      "source_port": "h_u",
+      "target": "Controller",
+      "target_port": "h_u"
+    },
+    {
+      "source": "Controller",
+      "source_port": "u",
+      "target": "Pump",
+      "target_port": "u"
+    }
+  ]
+}
